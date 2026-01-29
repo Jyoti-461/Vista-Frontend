@@ -106,7 +106,6 @@ const Navbar = () => {
 
         {/* ===== RIGHT: CONTROLS + LOGOS ===== */}
         <div className="flex items-center gap-3 md:gap-4 z-20">
-          {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             className="p-2 md:p-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-darkcard transition shadow-sm"

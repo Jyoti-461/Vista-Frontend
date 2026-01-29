@@ -61,13 +61,14 @@ useEffect(() => {
     </h2>
 
     <ul className="space-y-4 text-gray-400 text-sm md:text-base leading-relaxed list-disc list-inside">
-      <li>Participants must design a website along with backend support.</li>
+      
       <li>The website must fulfill the <strong>accuracy of the problem statement</strong>.</li>
-      <li>The problem statement will be provided on the event day.</li>
-      <li>Frameworks/tools such as <strong>Scikit-learn, TensorFlow, Python, Flask, or Django</strong> are allowed.</li>
+      <li>Dataset and exact problem statement will be revealed only at the event time.</li>
+      <li>Teams must train an <strong>AI/ML</strong> model using the given dataset and build a web application to showcase results.</li>
+      <li>Frameworks/tools such as <strong>Python, PyTorch, NumPy, Flask / Django</strong> are allowed.</li>
       <li>Internet usage is allowed <strong>for AI tools or references</strong>.</li>
-      <li>The website must be <strong>original</strong> and developed during the event.</li>
-      <li>Use of pre-built or ready-made templates is <strong>strictly prohibited</strong>.</li>
+      <li>Only the provided dataset is allowed, Pre-built projects are <strong>strictly prohibited</strong>.</li>
+      
       <li>Judging will be based on <strong>UI, functionality, innovation, and completeness</strong>.</li>
       <li>The decision of the judges and event heads will be <strong>final and binding</strong>.</li>
     </ul>

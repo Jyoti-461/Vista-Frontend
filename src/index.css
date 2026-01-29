@@ -2,67 +2,743 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Smooth theme transition */
-body {
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* ===== SMOOTH THEME TRANSITIONS ===== */
+:root {
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* DEFAULT = DARK MODE */
-body {
-  background-color: #020617; /* darkbg */
-  color: #E5E7EB; /* gray-200 */
+html, body {
+  transition: background-color 0.5s var(--transition-smooth),
+              color 0.5s var(--transition-smooth);
+  overflow-x: hidden;
+  
 }
 
-/* LIGHT MODE (only when .dark is REMOVED) */
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== THEME COLORS ===== */
+/* Default Dark Mode */
+body {
+  background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%);
+  color: #e5e7eb;
+  min-height: 100vh;
+ 
+}
+
+/* Light Mode */
 html:not(.dark) body {
-  background-color: #F8FAFC; /* lightbg */
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
   color: #020617;
 }
 
-/* Neon effects */
-.neon-primary {
-  box-shadow:
-    0 0 8px rgba(99,102,241,0.7),
-    0 0 24px rgba(99,102,241,0.45);
+
+
+/* ===== VOLUMETRIC GRADIENT FLOW SYSTEM ===== */
+@keyframes volumetric-flow-x {
+  0%, 100% {
+    transform: translate3d(-100%, 0, 0) scale(1.5);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate3d(0%, 0, 100px) scale(1.8);
+    opacity: 0.6;
+  }
 }
 
-.neon-secondary {
-  box-shadow:
-    0 0 8px rgba(34,211,238,0.7),
-    0 0 24px rgba(34,211,238,0.45);
+@keyframes volumetric-flow-y {
+  0%, 100% {
+    transform: translate3d(0, -100%, 0) scale(1.2);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translate3d(0, 0%, -50px) scale(1.5);
+    opacity: 0.5;
+  }
 }
-/* Vertical auto scroll */
+
+@keyframes volumetric-flow-z {
+  0%, 100% {
+    transform: translate3d(0, 0, -200px) scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate3d(0, 0, 100px) scale(1.3);
+    opacity: 0.4;
+  }
+}
+
+@keyframes depth-pulse {
+  0%, 100% {
+    transform: translateZ(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateZ(50px);
+    opacity: 0.7;
+  }
+}
+
+@keyframes volumetric-swarm {
+  0% {
+    transform: translate3d(0, 0, 0) rotateX(0) rotateY(0);
+  }
+  25% {
+    transform: translate3d(100px, -50px, 100px) rotateX(90deg) rotateY(45deg);
+  }
+  50% {
+    transform: translate3d(0, -100px, 200px) rotateX(180deg) rotateY(90deg);
+  }
+  75% {
+    transform: translate3d(-100px, -50px, 100px) rotateX(270deg) rotateY(135deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotateX(360deg) rotateY(180deg);
+  }
+}
+
+@keyframes volumetric-fog {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.1;
+  }
+  33% {
+    transform: translate3d(50px, 30px, 50px) scale(1.1);
+    opacity: 0.3;
+  }
+  66% {
+    transform: translate3d(-30px, 50px, -30px) scale(1.05);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.1;
+  }
+}
+
+@keyframes light-beam-volumetric {
+  0% {
+    transform: translate3d(-100%, 0, -100px) rotate(45deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+    transform: translate3d(0%, 0, 0) rotate(45deg);
+  }
+  90% {
+    opacity: 0.8;
+    transform: translate3d(100%, 0, 0) rotate(45deg);
+  }
+  100% {
+    transform: translate3d(200%, 0, 100px) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Volumetric Animation Classes */
+.animate-volumetric-flow-x {
+  animation: volumetric-flow-x 15s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-volumetric-flow-y {
+  animation: volumetric-flow-y 20s ease-in-out infinite reverse;
+  transform-style: preserve-3d;
+}
+
+.animate-volumetric-flow-z {
+  animation: volumetric-flow-z 25s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-depth-pulse {
+  animation: depth-pulse 8s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-volumetric-swarm {
+  animation: volumetric-swarm 60s linear infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-volumetric-fog {
+  animation: volumetric-fog 30s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-light-beam-volumetric {
+  animation: light-beam-volumetric 5s linear infinite;
+  transform-style: preserve-3d;
+}
+
+/* Depth Layers */
+.depth-layer-0 { transform: translateZ(-300px); opacity: 0.1; }
+.depth-layer-1 { transform: translateZ(-200px); opacity: 0.2; }
+.depth-layer-2 { transform: translateZ(-100px); opacity: 0.4; }
+.depth-layer-3 { transform: translateZ(0px); opacity: 0.6; }
+.depth-layer-4 { transform: translateZ(100px); opacity: 0.8; }
+.depth-layer-5 { transform: translateZ(200px); opacity: 1; }
+
+/* Depth-based Effects */
+.depth-blur-0 { filter: blur(0px); }
+.depth-blur-1 { filter: blur(1px); }
+.depth-blur-2 { filter: blur(2px); }
+.depth-blur-3 { filter: blur(4px); }
+.depth-blur-4 { filter: blur(8px); }
+
+/* Volumetric Gradients */
+.volumetric-gradient-1 {
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(0, 200, 255, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(150, 0, 255, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 50%, rgba(0, 100, 255, 0.3) 0%, transparent 50%);
+  background-blend-mode: screen;
+  mix-blend-mode: screen;
+}
+
+.volumetric-gradient-2 {
+  background: 
+    linear-gradient(45deg, rgba(0, 200, 255, 0.2) 0%, transparent 60%),
+    linear-gradient(135deg, rgba(150, 0, 255, 0.2) 0%, transparent 60%),
+    linear-gradient(225deg, rgba(0, 100, 255, 0.2) 0%, transparent 60%),
+    linear-gradient(315deg, rgba(255, 0, 200, 0.2) 0%, transparent 60%);
+  background-blend-mode: overlay;
+  mix-blend-mode: overlay;
+}
+
+/* Atmospheric Scattering */
+.atmospheric-scatter {
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%),
+    linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ===== ANIMATION KEYFRAMES ===== */
+/* Pulse Glow */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.8;
+    filter: brightness(1) drop-shadow(0 0 10px rgba(99, 102, 241, 0.3));
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.2) drop-shadow(0 0 20px rgba(99, 102, 241, 0.5));
+  }
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -20px, 20px);
+  }
+}
+
+/* Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Gradient Shift */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Slide In Up */
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Vertical Scroll */
+@keyframes scrollUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* ===== COUNTDOWN FLIP ANIMATIONS ===== */
+@keyframes flip-down {
+  0% {
+    transform: rotateX(0deg);
+    transform-origin: top;
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(-180deg);
+    transform-origin: top;
+    opacity: 0;
+  }
+}
+
+@keyframes flip-up {
+  0% {
+    transform: rotateX(180deg);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    transform-origin: bottom;
+    opacity: 1;
+  }
+}
+
+/* Celebration Effects */
+@keyframes celebrate-burst {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Particle Effects */
+@keyframes particle-fall {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--x-end), 40px, var(--z-end));
+    opacity: 0;
+  }
+}
+
+/* Light Bloom Effects */
+@keyframes bloom-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes light-streak {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+    opacity: 0;
+  }
+}
+
+@keyframes float-up {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(0, -40px, 40px);
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+/* Animation Classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+.animate-gradient {
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899, #6366f1);
+  background-size: 300% 300%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+.animate-slide-up {
+  animation: slide-in-up 0.6s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite alternate;
+}
+
+/* Flip Animation Classes */
+.flip-down {
+  animation: flip-down 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  transform-style: preserve-3d;
+}
+
+.flip-up {
+  animation: flip-up 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  transform-style: preserve-3d;
+}
+
+.celebrate-burst {
+  animation: celebrate-burst 0.8s ease-out forwards;
+  transform-style: preserve-3d;
+}
+
+.particle-fall {
+  animation: particle-fall 0.8s ease-out forwards;
+  --x-end: 10px;
+  --z-end: 20px;
+}
+
+/* Bloom Animation Classes */
+.animate-bloom-pulse {
+  animation: bloom-pulse 3s ease-in-out infinite;
+}
+
+.animate-light-streak {
+  animation: light-streak 3s ease-out infinite;
+}
+
+.animate-float-up {
+  animation: float-up 6s ease-in-out infinite;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Glass Morphism */
+.glass-effect {
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.glass-dark {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+/* Volumetric Glass */
+.volumetric-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) brightness(1.2);
+  -webkit-backdrop-filter: blur(20px) brightness(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+  transform-style: preserve-3d;
+}
+
+/* Button Effects */
+.btn-festive {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.btn-festive::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+  transform-style: preserve-3d;
+}
+
+.btn-festive:hover::before {
+  left: 100%;
+}
+
+/* Button Shine Effect */
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 20%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  transform: rotate(30deg);
+  transition: left 0.6s;
+  transform-style: preserve-3d;
+}
+
+.btn-shine:hover::after {
+  left: 120%;
+}
+
+/* Vertical Scroll */
 .vertical-scroll {
   height: 420px;
   overflow: hidden;
   position: relative;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
 }
 
 .vertical-track {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  animation-name: scrollUp;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  animation: scrollUp 20s linear infinite;
 }
 
-/* IMPORTANT FIX */
-@keyframes scrollUp {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-50%);
-  }
-}
-
-
-/* Pause on hover (optional but professional) */
 .vertical-scroll:hover .vertical-track {
   animation-play-state: paused;
 }
-html {
-  scroll-behavior: smooth;
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1, #8b5cf6);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #8b5cf6, #ec4899);
+}
+
+/* Staggered Animation Delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Particle Container */
+.particle-container {
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.particle-container::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate3d(0, 1, 0, 0deg);
+  }
+  to {
+    transform: rotate3d(0, 1, 0, 360deg);
+  }
+}
+
+/* Countdown Glow Pulse */
+@keyframes countdown-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(99, 102, 241, 0.3),
+      0 0 40px rgba(99, 102, 241, 0.2),
+      0 0 60px rgba(99, 102, 241, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(99, 102, 241, 0.5),
+      0 0 60px rgba(99, 102, 241, 0.3),
+      0 0 90px rgba(99, 102, 241, 0.2);
+  }
+}
+
+.countdown-glow {
+  animation: countdown-glow 2s ease-in-out infinite;
+}
+
+/* Volumetric Text Effect */
+.volumetric-text {
+  text-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2px 0 rgba(255, 255, 255, 0.05),
+    0 3px 0 rgba(255, 255, 255, 0.02),
+    0 0 10px rgba(0, 200, 255, 0.3),
+    0 0 20px rgba(150, 0, 255, 0.2),
+    0 0 30px rgba(0, 100, 255, 0.1);
+  transform-style: preserve-3d;
+}
+
+/* Depth-aware hover effects */
+.depth-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.depth-hover:hover {
+  transform: translateZ(20px) scale(1.05);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Neon & Glow Effects */
+.neon-primary {
+  text-shadow: 
+    0 0 10px rgba(99, 102, 241, 0.7),
+    0 0 20px rgba(99, 102, 241, 0.5),
+    0 0 30px rgba(99, 102, 241, 0.3);
+}
+
+.neon-secondary {
+  text-shadow: 
+    0 0 10px rgba(34, 211, 238, 0.7),
+    0 0 20px rgba(34, 211, 238, 0.5),
+    0 0 30px rgba(34, 211, 238, 0.3);
+}
+
+.neon-box {
+  box-shadow:
+    0 0 15px rgba(99, 102, 241, 0.4),
+    0 0 30px rgba(99, 102, 241, 0.2),
+    inset 0 0 15px rgba(99, 102, 241, 0.1);
+}
+
+/* CRT Scanline Effect */
+.crt-scanline {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 255, 255, 0.05) 2%,
+    transparent 4%,
+    transparent 96%,
+    rgba(255, 0, 255, 0.05) 98%,
+    transparent 100%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Radial gradient utilities */
+.bg-gradient-radial {
+  background-image: radial-gradient(var(--tw-gradient-stops));
+}
+
+/* Text bloom effect */
+.text-bloom {
+  text-shadow: 
+    0 0 20px currentColor,
+    0 0 40px currentColor,
+    0 0 60px currentColor;
+}
+
+/* Layered shadow for depth */
+.layered-shadow {
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 40px rgba(99, 102, 241, 0.2);
+}
+
+/* Particle glow */
+.particle-glow {
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* Smooth transitions */
+.transition-all-smooth {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Flicker effect for old school CRT feel */
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+.animate-flicker {
+  animation: flicker 0.15s infinite;
+}
+
+/* Wave animation */
+@keyframes wave {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 10px);
+  }
+}
+
+.animate-wave {
+  animation: wave 3s ease-in-out infinite;
+}
