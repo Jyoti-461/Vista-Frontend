@@ -106,12 +106,7 @@ const Navbar = () => {
 
         {/* ===== RIGHT: CONTROLS + LOGOS ===== */}
         <div className="flex items-center gap-3 md:gap-4 z-20">
-          <button
-            onClick={toggleTheme}
-            className="p-2 md:p-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-darkcard transition shadow-sm"
-          >
-            {dark ? <FaSun className="text-yellow-400 text-lg" /> : <FaMoon className="text-indigo-600 text-lg" />}
-          </button>
+          
           {/* Right-side logos - Visible on both mobile and desktop */}
           <div className="flex items-center gap-2 md:gap-3">
             {/* IIC Logo - Bigger in circle with less padding */}
