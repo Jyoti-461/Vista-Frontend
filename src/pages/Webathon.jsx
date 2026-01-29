@@ -37,7 +37,7 @@ useEffect(() => {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-5xl font-bold text-center mb-20"
         >
-          AI Forge{" "}
+          ML2Web-a-thon{" "}
           <span className="text-primary drop-shadow-[0_0_15px_rgba(99,102,241,0.8)]">
             Timeline
           </span>
