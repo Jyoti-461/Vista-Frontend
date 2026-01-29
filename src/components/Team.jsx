@@ -4,28 +4,17 @@ import { useEffect, useRef, useState } from "react";
 // Team data structure
 const teamData = [
   // Core Committee
-  { id: 1, name: "Anuj", council: "President", image: 1 },
-  { id: 2, name: "Shubhankar Patil", council: "Vice President", image: 2 },
-  { id: 3, name: "Aastik Deore", council: "Secretary", image: 3 },
-  { id: 4, name: "Divya Sharma", council: "Treasurer", image: 4 },
-  { id: 5, name: "Rohan Mehta", council: "Technical Head", image: 5 },
-  { id: 6, name: "Priya Singh", council: "Events Head", image: 6 },
-  { id: 7, name: "Arjun Patel", council: "Marketing Head", image: 7 },
-  { id: 8, name: "Neha Gupta", council: "Design Head", image: 8 },
-  { id: 9, name: "Vikram Joshi", council: "Sponsorship Head", image: 9 },
-  
-  // Technical Team
-  { id: 10, name: "Siddharth Rao", council: "Web Development", image: 10 },
-  { id: 11, name: "Ananya Reddy", council: "App Development", image: 11 },
-  { id: 12, name: "Karan Malhotra", council: "DevOps", image: 12 },
-  { id: 13, name: "Isha Patel", council: "UI/UX Designer", image: 13 },
-  { id: 14, name: "Rajesh Kumar", council: "Database Manager", image: 14 },
-  
-  // Events Team
-  { id: 15, name: "Pooja Sharma", council: "Event Coordinator", image: 15 },
-  { id: 16, name: "Rahul Verma", council: "Logistics Head", image: 16 },
-  { id: 17, name: "Simran Kaur", council: "Hospitality Head", image: 17 },
-  { id: 18, name: "Amit Singh", council: "Stage Manager", image: 18 },
+  { id: 1, name: "Anuj Yadav", council: "Core", image: 1 },
+  { id: 2, name: "Raj Shirke", council: "Core", image: 2 },
+  { id: 3, name: "Shruti Shinde", council: "Core", image: 3 },
+  { id: 4, name: "Pratiksha Shetty", council: "Core", image: 4 },
+  { id: 5, name: "Daneshh Rana", council: "Core", image: 5 },
+  { id: 6, name: "Atish Ghanekar", council: "Technical", image: 6 },
+  { id: 7, name: "Manish Jha", council: "Technical", image: 11 },
+  { id: 8, name: "Samika Yadav", council: "Technical", image: 10 },
+  { id: 9, name: "John Sanchis", council: "Technical", image: 7 },
+  { id: 10, name: "Omkar Surve", council: "Digital", image: 8 },
+  { id: 11, name: "Omkar", council: "Digital", image: 12 },
 ];
 
 // Filter options
@@ -38,24 +27,9 @@ const councilFilters = [
 
 // Council mapping
 const councilCategories = {
-  "President": "Core Committee",
-  "Vice President": "Core Committee",
-  "Secretary": "Core Committee",
-  "Treasurer": "Core Committee",
-  "Technical Head": "Core Committee",
-  "Events Head": "Core Committee",
-  "Marketing Head": "Core Committee",
-  "Design Head": "Core Committee",
-  "Sponsorship Head": "Core Committee",
-  "Web Development": "Technical Team",
-  "App Development": "Technical Team",
-  "DevOps": "Technical Team",
-  "UI/UX Designer": "Technical Team",
-  "Database Manager": "Technical Team",
-  "Event Coordinator": "Digital Team",
-  "Logistics Head": "Digital Team",
-  "Hospitality Head": "Digital Team",
-  "Stage Manager": "Digital Team",
+  "Core": "Core Committee",
+  "Technical": "Technical Team",
+  "Digital": "Digital Team",
 };
 
 const TeamMembers = () => {
@@ -65,19 +39,22 @@ const TeamMembers = () => {
   const controls = useAnimation();
   const isInView = useInView(containerRef, {
     once: true,
-    amount: 0.1,
-    margin: "-100px 0px"
+    amount: 0.05,
+    margin: "-50px 0px"
   });
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 640);
+      setIsTablet(width >= 640 && width < 1024);
     };
     
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
   useEffect(() => {
@@ -102,19 +79,19 @@ const TeamMembers = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
+        staggerChildren: 0.05,
         delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.4,
+        duration: 0.3,
         ease: [0.25, 0.1, 0.25, 1]
       }
     }
@@ -123,8 +100,11 @@ const TeamMembers = () => {
   return (
     <section
       id="Organisers"
-      className="relative py-12 sm:py-16 md:py-20 overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-500"
-      style={{ scrollMarginTop: '80px' }}
+      className="relative py-8 sm:py-12 md:py-16 overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-500"
+      style={{ 
+        scrollMarginTop: '80px',
+        scrollBehavior: 'smooth'
+      }}
     >
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -132,63 +112,64 @@ const TeamMembers = () => {
         <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-to-t from-purple-500/5 to-transparent" />
       </div>
 
-      {/* Subtle Grid Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px),
-                          linear-gradient(to bottom, #888 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
-        }} />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-8 sm:mb-12"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-6 sm:mb-8 md:mb-12 px-2"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-gray-900 dark:text-gray-100">
             Meet Our <span className="text-primary">Team</span>
           </h2>
-          <div className="h-1 w-24 sm:w-32 mx-auto bg-gradient-to-r from-transparent via-primary to-transparent rounded-full" />
-          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mt-6 max-w-2xl mx-auto">
-            The passionate individuals behind TechVerse Vista 2026 who work tirelessly to make this event a success.
+          <div className="h-1 w-20 sm:w-24 md:w-32 mx-auto bg-gradient-to-r from-transparent via-primary to-transparent rounded-full" />
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto px-2">
+            The passionate individuals behind TechVerse Vista 2026
           </p>
         </motion.div>
 
-        {/* Filter Buttons */}
+        {/* Filter Buttons - Horizontal scroll on mobile */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12"
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="mb-6 sm:mb-8 md:mb-12"
         >
-          {councilFilters.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-4 py-2 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 ${
-                activeFilter === filter
-                  ? 'bg-primary text-white shadow-lg'
-                  : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
+          <div className="flex overflow-x-auto pb-2 -mx-3 px-3 sm:overflow-visible sm:justify-center sm:flex-wrap gap-2 sm:gap-3">
+            {councilFilters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`flex-shrink-0 px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                  activeFilter === filter
+                    ? 'bg-primary text-white shadow-lg scale-105'
+                    : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
         </motion.div>
 
-        {/* Team Grid */}
+        {/* Team Grid - Responsive layout */}
         <motion.div
           ref={containerRef}
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6"
+          className={`
+            grid grid-cols-2 
+            ${isTablet ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}
+            md:grid-cols-3 
+            lg:grid-cols-4 
+            xl:grid-cols-5 
+            gap-3 sm:gap-4 md:gap-6
+            px-2 sm:px-0
+          `}
         >
           {filteredTeam.map((member, index) => (
             <TeamCard
@@ -196,6 +177,7 @@ const TeamMembers = () => {
               member={member}
               index={index}
               isMobile={isMobile}
+              isTablet={isTablet}
             />
           ))}
         </motion.div>
@@ -205,9 +187,9 @@ const TeamMembers = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12"
+            className="text-center py-8 sm:py-12"
           >
-            <p className="text-gray-500 dark:text-gray-400 text-lg">
+            <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base md:text-lg">
               No team members found for this category.
             </p>
           </motion.div>
@@ -215,26 +197,26 @@ const TeamMembers = () => {
 
         {/* Stats */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-3xl mx-auto"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-8 sm:mt-12 md:mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-3xl mx-auto px-2"
         >
           {[
             { value: teamData.length, label: "Team Members" },
-            { value: "4+", label: "Core Committee" },
-            { value: "5+", label: "Technical Team" },
-            { value: "4+", label: "Events Team" },
+            { value: "5", label: "Core Committee" },
+            { value: "5", label: "Technical Team" },
+            { value: "2", label: "Digital Team" },
           ].map((stat, idx) => (
             <div
               key={idx}
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200 dark:border-gray-700"
+              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 text-center border border-gray-200 dark:border-gray-700"
             >
-              <div className="text-2xl sm:text-3xl font-bold text-primary">
+              <div className="text-lg sm:text-xl md:text-2xl font-bold text-primary">
                 {stat.value}
               </div>
-              <div className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1">
+              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                 {stat.label}
               </div>
             </div>
@@ -245,13 +227,13 @@ const TeamMembers = () => {
   );
 };
 
-const TeamCard = ({ member, index, isMobile }) => {
+const TeamCard = ({ member, index, isMobile, isTablet }) => {
   const controls = useAnimation();
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
     amount: 0.1,
-    margin: "-50px 0px"
+    margin: "-30px 0px"
   });
 
   useEffect(() => {
@@ -261,13 +243,13 @@ const TeamCard = ({ member, index, isMobile }) => {
   }, [controls, isInView]);
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.4,
-        delay: index * 0.05,
+        duration: 0.3,
+        delay: index * 0.03,
         ease: [0.25, 0.1, 0.25, 1]
       }
     }
@@ -278,15 +260,15 @@ const TeamCard = ({ member, index, isMobile }) => {
       y: 0,
       scale: 1,
       transition: {
-        duration: 0.3,
+        duration: 0.2,
         ease: "easeInOut"
       }
     },
     hover: {
-      y: isMobile ? -2 : -5,
-      scale: isMobile ? 1.02 : 1.05,
+      y: isMobile ? -2 : -4,
+      scale: isMobile ? 1.02 : 1.04,
       transition: {
-        duration: 0.3,
+        duration: 0.2,
         ease: "easeInOut"
       }
     }
@@ -299,14 +281,17 @@ const TeamCard = ({ member, index, isMobile }) => {
       initial="hidden"
       animate={controls}
       whileHover="hover"
-     
+      
       className="group relative"
-      style={{ willChange: 'transform, opacity' }}
+      style={{ 
+        willChange: 'transform, opacity',
+        transform: 'translateZ(0)'
+      }}
     >
       {/* Card */}
-      <div className="relative bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div className="relative bg-white dark:bg-gray-800/90 backdrop-blur-sm rounded-lg sm:rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 h-full">
         {/* Image Container */}
-        <div className="relative h-48 sm:h-56 w-full overflow-hidden">
+        <div className="relative aspect-[3/4] overflow-hidden">
           {/* Loading Skeleton */}
           <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 animate-pulse" />
           
@@ -314,25 +299,28 @@ const TeamCard = ({ member, index, isMobile }) => {
           <img
             src={`/images/${member.image}.jpeg`}
             alt={member.name}
-            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
             onLoad={(e) => {
               e.target.style.opacity = 1;
             }}
-            style={{ opacity: 0 }}
+            style={{ 
+              opacity: 0,
+              transition: 'opacity 0.3s ease'
+            }}
           />
           
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
           
           {/* Council Badge */}
-          <div className="absolute top-3 right-3">
-            <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+          <div className="absolute top-2 right-2">
+            <span className={`px-1.5 py-0.5 sm:px-2 sm:py-1 text-[10px] sm:text-xs font-medium rounded-full ${
               councilCategories[member.council] === "Core Committee"
-                ? "bg-primary/20 text-primary border border-primary/30"
+                ? "bg-primary/20 text-primary border border-primary/20"
                 : councilCategories[member.council] === "Technical Team"
-                ? "bg-blue-500/20 text-blue-400 border border-blue-500/30"
-                : "bg-purple-500/20 text-purple-400 border border-purple-500/30"
+                ? "bg-blue-500/20 text-blue-400 border border-blue-500/20"
+                : "bg-purple-500/20 text-purple-400 border border-purple-500/20"
             }`}>
               {councilCategories[member.council].split(' ')[0]}
             </span>
@@ -340,23 +328,23 @@ const TeamCard = ({ member, index, isMobile }) => {
         </div>
 
         {/* Content */}
-        <div className="p-4">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1 truncate">
+        <div className="p-3 sm:p-4">
+          <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-gray-100 mb-1 truncate">
             {member.name}
           </h3>
-          <p className="text-sm text-primary font-medium mb-3">
-            {member.council}
+          <p className="text-xs sm:text-sm text-primary font-medium">
+            {member.council} Team
           </p>
-          
-          
         </div>
 
         {/* Hover Effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
 
-      {/* Glow Effect */}
-      <div className="absolute -inset-0.5 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-xl blur opacity-0 group-hover:opacity-40 transition-opacity duration-300 -z-10" />
+      {/* Glow Effect - only on desktop */}
+      {!isMobile && (
+        <div className="absolute -inset-0.5 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-lg sm:rounded-xl blur opacity-0 group-hover:opacity-40 transition-opacity duration-300 -z-10" />
+      )}
     </motion.div>
   );
 };
