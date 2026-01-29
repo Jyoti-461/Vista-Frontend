@@ -228,7 +228,7 @@ const Hero = () => {
               whileTap={{ scale: 0.95 }}
               className="
                 relative
-                px-8 py-2
+                px-8 py-4
                 bg-gradient-to-r from-indigo-600 to-purple-600
                 text-white text-lg font-semibold
                 rounded-xl
