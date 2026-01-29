@@ -211,7 +211,7 @@ const Footer = () => {
           {/* Copyright */}
           <div className="flex items-center gap-2">
             <p className="text-sm text-gray-400">
-              © 2026 TechVerse Vista — Made with 
+              Made with 
             </p>
             <FaHeart className="text-red-400 animate-pulse" />
             <p className="text-sm text-gray-400">
@@ -256,7 +256,7 @@ const Footer = () => {
           className="mt-8 text-center"
         >
           <p className="text-xs text-gray-500">
-           Where innovation meets celebration
+           © 2026 TechVerse Vista — Where innovation meets celebration
           </p>
         </motion.div>
       </div>

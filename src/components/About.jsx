@@ -260,13 +260,7 @@ const About = () => {
         />
       </div>
       
-      {/* Light Beams */}
-      <div className="absolute top-0 left-0 w-full h-1 
-                     bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent 
-                     animate-light-beam-volumetric" />
-      <div className="absolute bottom-0 left-0 w-full h-1 
-                     bg-gradient-to-r from-transparent via-purple-500/20 to-transparent 
-                     animate-light-beam-volumetric" style={{ animationDelay: '2s' }} />
+      
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-20">  {/*reduce gap*/}
         {/* ===== ABOUT COLLEGE ===== */}
@@ -298,13 +292,7 @@ const About = () => {
                 <div className="absolute -bottom-4 -right-4 w-8 h-8 rounded-full 
                               bg-gradient-to-r from-purple-500 to-pink-500 opacity-20" />
                 
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "100%" }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3, duration: 1 }}
-                  className="h-1 w-full bg-gradient-to-r from-cyan-500 to-blue-500 mb-6 rounded-full"
-                />
+               
                 
                 <h2 className="text-4xl md:text-5xl font-bold mb-8 
                              text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-600
@@ -436,13 +424,7 @@ const About = () => {
                 <div className="absolute -bottom-4 -right-4 w-8 h-8 rounded-full 
                               bg-gradient-to-r from-cyan-500 to-blue-500 opacity-20" />
                 
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "100%" }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3, duration: 1 }}
-                  className="h-1 w-full bg-gradient-to-r from-purple-500 to-pink-500 mb-6 rounded-full"
-                />
+                
                 
                 <h2 className="text-4xl md:text-5xl font-bold mb-8 
                              text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600

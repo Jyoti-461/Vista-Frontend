@@ -1,7 +1,77 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+
+// Custom hook for responsive padding
+const useResponsivePadding = () => {
+  const [topPadding, setTopPadding] = useState(80); // Default in pixels
+  
+  // Adjust padding based on screen size
+  useEffect(() => {
+    const updatePadding = () => {
+      if (window.innerWidth < 640) {
+        setTopPadding(60); // Mobile
+      } else if (window.innerWidth < 1024) {
+        setTopPadding(80); // Tablet
+      } else {
+        setTopPadding(100); // Desktop
+      }
+    };
+    
+    updatePadding();
+    window.addEventListener('resize', updatePadding);
+    return () => window.removeEventListener('resize', updatePadding);
+  }, []);
+  
+  return topPadding;
+};
+
+// Highlight control component (for development/debugging)
+const HighlightControls = ({ 
+  onIncrease, 
+  onDecrease, 
+  isVisible = false,
+  paddingValue 
+}) => {
+  if (!isVisible) return null;
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="fixed top-20 right-4 z-50 bg-black/80 backdrop-blur-sm p-4 rounded-xl border border-white/20 shadow-2xl"
+    >
+      <div className="text-white text-sm mb-2 font-medium">Padding Controls</div>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={onDecrease}
+          className="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded-lg text-red-300 border border-red-500/30"
+        >
+          -
+        </button>
+        <div className="text-white text-sm min-w-[60px] text-center">
+          {paddingValue}px
+        </div>
+        <button
+          onClick={onIncrease}
+          className="px-3 py-1 bg-green-500/20 hover:bg-green-500/30 rounded-lg text-green-300 border border-green-500/30"
+        >
+          +
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
 const Hero = () => {
   const [isAnimating, setIsAnimating] = useState(true);
+  const [topPadding, setTopPadding] = useState(80); // Default top padding in pixels
+  const [showControls, setShowControls] = useState(false); // Toggle for controls
+  const responsivePadding = useResponsivePadding();
+  
+  // Use responsive padding by default, but allow manual override
+  useEffect(() => {
+    setTopPadding(responsivePadding);
+  }, [responsivePadding]);
 
   useEffect(() => {
     // Stop the main collision animation after 3 seconds
@@ -12,13 +82,54 @@ const Hero = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Toggle controls with Ctrl+Shift+P
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+        e.preventDefault();
+        setShowControls(prev => !prev);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const scrollToRegister = () => {
     const section = document.getElementById("register");
     section?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const increasePadding = () => {
+    setTopPadding(prev => Math.min(prev + 10, 200)); // Max 200px
+  };
+
+  const decreasePadding = () => {
+    setTopPadding(prev => Math.max(prev - 10, 20)); // Min 20px
+  };
+
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div 
+      className="relative min-h-screen overflow-hidden"
+      style={{ paddingTop: `${topPadding}px` }}
+    >
+      {/* Highlight Controls */}
+      <HighlightControls
+        onIncrease={increasePadding}
+        onDecrease={decreasePadding}
+        isVisible={showControls}
+        paddingValue={topPadding}
+      />
+      
+      {/* Highlight indicator */}
+      {showControls && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-cyan-500 to-purple-500 z-40"
+        />
+      )}
+
       {/* VOLCANO GRADIENT BACKGROUND EFFECT */}
       <div className="absolute inset-0 z-0">
         {/* Left Gradient Moving Right */}
@@ -145,9 +256,13 @@ const Hero = () => {
           relative z-10
           flex flex-col items-center justify-center
           text-center px-4
-          min-h-screen
+          min-h-[calc(100vh-80px)]
           text-gray-900 dark:text-gray-200
         "
+        style={{ 
+          minHeight: `calc(100vh - ${topPadding}px)`,
+          paddingTop: `${topPadding > 80 ? topPadding - 20 : 0}px`
+        }}
       >
         {/* Animated Title */}
         <motion.div
@@ -160,7 +275,7 @@ const Hero = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.6, delay: 3.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 sm:mb-6"
           >
             <span className="text-white drop-shadow-[0_2px_10px_rgba(99,102,241,0.8)]">
               TechVerse
@@ -193,7 +308,7 @@ const Hero = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 3.4 }}
-            className="mt-8 text-xl md:text-2xl font-medium max-w-3xl mx-auto text-gray-300 dark:text-gray-300"
+            className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl font-medium max-w-3xl mx-auto text-gray-300 dark:text-gray-300 px-2 sm:px-4"
           >
             TIMSCDR Mumbai's{" "}
             <span className="text-primary font-semibold">flagship Tech Fest</span>
@@ -206,7 +321,7 @@ const Hero = () => {
             initial={{ width: 0 }}
             animate={{ width: "200px" }}
             transition={{ duration: 1, delay: 3.8 }}
-            className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mt-8 rounded-full"
+            className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mt-6 sm:mt-8 rounded-full"
           />
 
           {/* Buttons */}
@@ -214,7 +329,7 @@ const Hero = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 4 }}
-            className="mt-12 flex flex-wrap gap-6 justify-center"
+            className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center"
           >
             {/* Register Button */}
             <motion.a
@@ -222,27 +337,28 @@ const Hero = () => {
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ 
-                scale: 1.08,
+                scale: 1.05,
                 boxShadow: "0 0 30px rgba(99, 102, 241, 0.5)"
               }}
               whileTap={{ scale: 0.95 }}
               className="
                 relative
-                px-8 py-4
+                px-6 sm:px-8 py-3 sm:py-4
                 bg-gradient-to-r from-indigo-600 to-purple-600
-                text-white text-lg font-semibold
+                text-white text-base sm:text-lg font-semibold
                 rounded-xl
                 shadow-2xl
                 overflow-hidden
                 cursor-pointer
                 group
+                w-full sm:w-auto
               "
             >
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10 flex items-center justify-center gap-2">
                 <motion.span
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="text-xl"
+                  className="text-lg sm:text-xl"
                 >
                   ✨
                 </motion.span>
@@ -250,7 +366,7 @@ const Hero = () => {
                 <motion.span
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear", delay: 0.5 }}
-                  className="text-xl"
+                  className="text-lg sm:text-xl"
                 >
                   🚀
                 </motion.span>
@@ -272,13 +388,13 @@ const Hero = () => {
                 document.body.removeChild(link);
               }}
               whileHover={{ 
-                scale: 1.08,
+                scale: 1.05,
                 boxShadow: "0 0 20px rgba(99, 102, 241, 0.3)"
               }}
               whileTap={{ scale: 0.95 }}
               className="
-                px-8 py-4
-                rounded-xl font-semibold text-lg
+                px-6 sm:px-8 py-3 sm:py-4
+                rounded-xl font-semibold text-base sm:text-lg
                 border-2 border-primary/50
                 text-primary
                 bg-white/10 dark:bg-gray-900/50
@@ -286,9 +402,10 @@ const Hero = () => {
                 hover:bg-primary/10
                 transition-all
                 group
+                w-full sm:w-auto
               "
             >
-              <span className="flex items-center gap-2">
+              <span className="flex items-center justify-center gap-2">
                 <motion.span
                   animate={{ y: [0, -3, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
@@ -305,12 +422,12 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 4.5 }}
-            className="mt-12 p-6 bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 max-w-md mx-auto"
+            className="mt-8 sm:mt-10 p-4 sm:p-6 bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 max-w-md mx-auto"
           >
-            <p className="text-lg text-gray-300">
+            <p className="text-base sm:text-lg text-gray-300">
               <span className="text-primary font-bold">9th - 10th</span> • February 2026
             </p>
-            <p className="text-sm text-gray-400 mt-2">
+            <p className="text-xs sm:text-sm text-gray-400 mt-2">
               Get ready for the biggest tech extravaganza of the year!
             </p>
           </motion.div>
@@ -319,15 +436,26 @@ const Hero = () => {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="mt-16"
+            className="mt-8 sm:mt-12"
           >
-            <div className="text-gray-400 text-sm mb-2">Explore More</div>
+            <div className="text-gray-400 text-xs sm:text-sm mb-2">Explore More</div>
             <div className="w-6 h-10 border-2 border-gray-400/50 rounded-full mx-auto">
               <div className="w-1 h-3 bg-primary rounded-full mx-auto mt-2 animate-bounce" />
             </div>
           </motion.div>
         </motion.div>
       </motion.section>
+
+      {/* Padding Info (for debugging) */}
+      {showControls && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+          className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-lg text-white text-sm"
+        >
+          Current top padding: {topPadding}px
+        </motion.div>
+      )}
     </div>
   );
 };
