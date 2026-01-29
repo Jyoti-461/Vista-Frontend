@@ -4,17 +4,18 @@ import { useEffect, useRef, useState } from "react";
 // Team data structure
 const teamData = [
   // Core Committee
-  { id: 1, name: "Anuj Yadav", council: "Core", image: 1 },
-  { id: 2, name: "Raj Shirke", council: "Core", image: 2 },
-  { id: 3, name: "Shruti Shinde", council: "Core", image: 3 },
-  { id: 4, name: "Pratiksha Shetty", council: "Core", image: 4 },
-  { id: 5, name: "Daneshh Rana", council: "Core", image: 5 },
-  { id: 6, name: "Atish Ghanekar", council: "Technical", image: 6 },
+  { id: 1, name: "Anuj Yadav - 9819207484", council: "Core", image: 1 },
+  { id: 2, name: "Raj Shirke - 8104966957", council: "Core", image: 2 },
+  { id: 3, name: "Shruti Shinde - 9324233506", council: "Core", image: 3 },
+  { id: 4, name: "Pratiksha Shetty - 8591026988", council: "Core", image: 4 },
+  { id: 5, name: "Daneshh Rana - 9619794369", council: "Core", image: 5 },
+  { id: 6, name: "Jyoti Jayant", council: "Technical", image: 15 },
   { id: 7, name: "Manish Jha", council: "Technical", image: 11 },
-  { id: 8, name: "Samika Yadav", council: "Technical", image: 10 },
-  { id: 9, name: "John Sanchis", council: "Technical", image: 7 },
-  { id: 10, name: "Omkar Surve", council: "Digital", image: 8 },
-  { id: 11, name: "Omkar", council: "Digital", image: 12 },
+  { id: 9, name: "Samika Yadav", council: "Technical", image: 10 },  
+  { id: 10, name: "John Sanchis", council: "Technical", image: 7 },
+  { id: 8, name: "Atish Ghanekar", council: "Technical", image: 6 },
+  { id: 11, name: "Omkar Surve", council: "Digital", image: 8 },
+  { id: 12, name: "Omkar Manwacharya", council: "Digital", image: 12 },
 ];
 
 // Filter options
@@ -100,7 +101,7 @@ const TeamMembers = () => {
   return (
     <section
       id="Organisers"
-      className="relative py-8 sm:py-12 md:py-16 overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-500"
+      className="relative py-8 sm:py-12 md:py-8 overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-500"
       style={{ 
         scrollMarginTop: '80px',
         scrollBehavior: 'smooth'
@@ -195,33 +196,7 @@ const TeamMembers = () => {
           </motion.div>
         )}
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-8 sm:mt-12 md:mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-3xl mx-auto px-2"
-        >
-          {[
-            { value: teamData.length, label: "Team Members" },
-            { value: "5", label: "Core Committee" },
-            { value: "5", label: "Technical Team" },
-            { value: "2", label: "Digital Team" },
-          ].map((stat, idx) => (
-            <div
-              key={idx}
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 text-center border border-gray-200 dark:border-gray-700"
-            >
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-primary">
-                {stat.value}
-              </div>
-              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </motion.div>
+        
       </div>
     </section>
   );
@@ -241,6 +216,20 @@ const TeamCard = ({ member, index, isMobile, isTablet }) => {
       controls.start("visible");
     }
   }, [controls, isInView]);
+
+  // Split name and phone for Core members (ids 1-5)
+  const isCoreMember = member.council === "Core";
+  let displayName = member.name;
+  let phoneNumber = null;
+
+  if (isCoreMember) {
+    // Split by " - " to separate name and phone
+    const parts = member.name.split(" - ");
+    if (parts.length === 2) {
+      displayName = parts[0];
+      phoneNumber = parts[1];
+    }
+  }
 
   const cardVariants = {
     hidden: { opacity: 0, y: 15 },
@@ -298,7 +287,7 @@ const TeamCard = ({ member, index, isMobile, isTablet }) => {
           {/* Actual Image */}
           <img
             src={`/images/${member.image}.jpeg`}
-            alt={member.name}
+            alt={displayName}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
             onLoad={(e) => {
@@ -329,10 +318,21 @@ const TeamCard = ({ member, index, isMobile, isTablet }) => {
 
         {/* Content */}
         <div className="p-3 sm:p-4">
+          {/* Name - always shown */}
           <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-gray-100 mb-1 truncate">
-            {member.name}
+            {displayName}
           </h3>
-          <p className="text-xs sm:text-sm text-primary font-medium">
+          
+          {/* Phone number - only for Core members */}
+          {isCoreMember && phoneNumber && (
+            <p className="text-xs text-primary font-medium mb-1">
+              {phoneNumber}
+            </p>
+          )}
+          
+          {/* Council Team */}
+          <p className="text-xs sm:text-sm text-cyan-500 dark:text-cyan-400"
+>
             {member.council} Team
           </p>
         </div>
