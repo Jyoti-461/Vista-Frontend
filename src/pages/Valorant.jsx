@@ -102,7 +102,7 @@ useEffect(() => {
           <strong>1st Runner-Up:</strong> ₹2000
         </li>
         <li>
-          <strong>Team Details:</strong> 5 + 1 Player
+          <strong>Team Details:</strong> 5 Players
         </li>
       </ul>
     </div>
