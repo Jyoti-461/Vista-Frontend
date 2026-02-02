@@ -59,6 +59,7 @@ useEffect(() => {
     </h2>
 
     <ul className="space-y-4 text-gray-400 text-sm md:text-base leading-relaxed list-disc list-inside">
+      <li>The Organisers will Provide <strong>Desktop.</strong>Bring your own <strong>Headphone</strong></li>
       <li>Matches will be played in <strong>Custom Game</strong> mode.</li>
       <li>Game settings must be <strong>Standard</strong> with <strong>Tournament Mode ON</strong>.</li>
       <li>All matches will be conducted in a <strong>5v5 format</strong>.</li>
